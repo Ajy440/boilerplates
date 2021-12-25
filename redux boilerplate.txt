@@ -1,0 +1,90 @@
+------- Redux with react -----
+Prerequisite
+npm i redux react-redux
+
+------------------------------
+Create 2 folders - actions and reducers
+
+Actions -> index.js
+reducers -> index.js , upDown.js
+src -> store.js
+
+------------------------------
+
+Actions -> index.js (create actions and action creators) 
+export const incNumber = (num) => {
+  return { type: "INCREMENT", payload: num };
+};
+--------------------------------
+
+reducers -> upDown.js (one of the reducers)
+const initialState = 0;
+
+const changeTheNumber = (state = initialState, action) => {
+  switch (action.type) {
+    case "INCREMENT":
+      return state + action.payload;
+    case "DECREMENT":
+      return state - 1;
+    default:
+      return state;
+  }
+};
+
+export default changeTheNumber;
+
+
+reducers -> index.js (combine all the reducers to pass into store)
+import changeTheNumber from "./upDown";
+import { combineReducers } from "redux";
+
+const rootReducer = combineReducers({
+  changeTheNumber,
+  bgChanger,
+});
+
+export default rootReducer;
+
+---------------------------------------
+
+store.js
+import { createStore } from "redux";
+import rootReducer from "./reducers";
+
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+export default store;
+
+----------------------------------------
+----------------------------------------
+
+ADD INTO REaCT
+
+---------------------------------------
+---------------------------------------
+
+in index.js
+import store from "./store";
+import { Provider } from "react-redux";
+<Provider store={store}>
+      <App />
+    </Provider>
+	
+---------------------------------------
+in app.js
+import { useSelector, useDispatch } from "react-redux";
+import { incNumber, decNumber } from "./actions";
+
+ const state = useSelector((state) => state.changeTheNumber);
+ const dispatch = useDispatch();
+ 
+ onClick={() => dispatch(decNumber())
+ 
+ ----------------------------------------
+ 
+ 
+ 
+ https://www.youtube.com/watch?v=1oU_YGhT7ck
